@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Slouch detector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+</head>
+
+<body>
+    <div id="infoModal" class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box is-clearfix">
+                <h2 class="subtitle"><strong>How this page should be used</strong></h2>
+                <p class="is-size-7">
+                    After sitting up straight and clicking on <strong>"Start video"</strong> you should
+                    click on <strong>"Capture current position"</strong> to save the current calculated distance
+                    and vertical position of your head, and use that as a baseline. Upon clicking the page will
+                    try to measure your distance from the webcam ever <strong>1500</strong> milliseconds,
+                    and compare it to the captured distance. By default, if the distance
+                    difference is greater than <strong>5%</strong> you will be notified every <strong>15 seconds</strong>,
+                    also by default. You can control these values on the page.
+                </p>
+                <hr>
+                <p class="is-size-7">
+                    You might need to stop the video feed to allow other
+                    apps to use the camera. You can also hide the video output
+                    to reduce resource usage by the page.
+                </p>
+                <hr>
+                <h2 class="subtitle"><strong>Info & disclaimer</strong></h2>
+                <p class="is-size-7">
+                    This page uses simple math to calculate your approximate distance to the camera 
+                    using data from a client side facial detection library. This gives it
+                    a value to compare against and check if you are getting closer to your
+                    camera, or lowering your head, which would indicate that you might be slouching. 
+                    It then sends you a local notification for you to pull back and straighten up.
+                </p>
+                <hr>
+                <p class="is-size-7">
+                    In <strong>no way</strong> does the page send any client data back to any servers.
+                    This is purely a client side implementation.
+                </p>
+                <button class="toggleInfoModal button is-pulled-right" aria-label="close">Close</button>
+            </div>
+        </div>
+        <button class="toggleInfoModal modal-close is-large" aria-label="close"></button>
+    </div>
+    <div class="container is-fullhd">
+        <section class="hero is-dark is-header">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Slouch stoppah
+                    </h1>
+                    <h2 class="subtitle">
+                        Spine health personal assistant
+                    </h2>
+                </div>
+            </div>
+        </section>
+        <div class="notification is-marginless">
+            If you are not sure how to sit correctly, take a look at
+            <a href="https://www.wikihow.com/Sit-up-Straight-at-a-Computer">this</a> link or just google it yourself.
+        </div>
+        <div id="errorContainer" class="notification is-warning is-marginless">
+
+        </div>
+        <div id="distanceDisplay" class="notification is-marginless">
+            You sit roughly <code>x</code> centimeters from the screen. <p id="capturedDistance"></p>
+        </div>
+        <div class="level is-marginless">
+            <div id="videoContent" class="level-left">
+                <video></video>
+                <canvas width="266" height="200"></canvas>
+            </div>
+            <div id="infoContent" class="level-right">
+                <div>
+                    <p class="is-6">
+                        Notify me every
+                    </p>
+                    <div class="field has-addons">
+                        <div class="control has-icons-right">
+                            <input class="input" id="notificationFrequency" type="number" value="15">
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-check">s</i>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="is-6">
+                        When the difference is greater than
+                    </p>
+                    <div class="field has-addons">
+                        <div class="control has-icons-right">
+                            <input class="input" id="breakPercentage" type="number" value="5">
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-check">%</i>
+                            </span>
+                        </div>
+                    </div>
+                    <button class="ui button control" id="startCamera">Start camera</button>
+                    <button class="ui button control" id="captureDistance">Capture current position</button>
+                    <br>
+                    <label class="checkbox">
+                        <input id="showVideoInput" type="checkbox" checked>
+                        Show video input
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="notification is-marginless">
+            This page only uses your camera feed for <strong>client side measurements</strong>. <a class="toggleInfoModal">Info</a>
+        </div>
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Slouch stoppah</strong> by <a href="https://nenadspp.com">Nenad Lukic</a>. 
+                    The <a href="https://github.com">source code</a> is licensed
+                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
+<script src="js/face-api.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/face.js"></script>
+<script src="js/ccv.js"></script>
+<script src="js/app.js" async></script>
+
+</html>

@@ -1,0 +1,47 @@
+video {
+    background: lightgoldenrodyellow;
+    transform: rotateY(180deg);
+    width: 100%;
+    border: none;
+}
+
+canvas {
+    display: none;
+}
+
+code {
+    font-weight: bold;
+}
+
+#unableToDetectAFace {
+    display: none;
+}
+
+#distanceDisplay {
+    display: none;
+}
+
+#videoContent {
+    flex: 2;
+    margin: 0 20px;
+}
+
+#infoContent {
+    flex: 2;
+    margin: 0 50px;
+    padding: 40px;
+    justify-content: flex-start;
+}
+
+.is-header {
+    height: 185px;
+    padding-top: 12px;
+}
+
+#errorContainer {
+    display: none;
+}
+
+.footer {
+    padding: 2rem 1.5rem 2rem;
+}
