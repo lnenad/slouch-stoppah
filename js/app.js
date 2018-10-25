@@ -77,8 +77,9 @@ if (!navigator.mediaDevices) {
             noFace++;
             if (noFace > 5) {
                 displayError("We're unable to detect a face. Maybe increase light intensity?");
-                return stopCamera();
+                stopCamera();
             }
+            return;
         } else {
             noFace = 0;
         }

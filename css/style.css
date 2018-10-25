@@ -11,6 +11,7 @@ canvas {
     left: 0;
     z-index: 10;
     transform: rotateY(180deg);
+    display: none;
 }
 
 code {
