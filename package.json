@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "bulma": "^0.7.2"
   },
-  "devDependencies": {},
   "scripts": {
     "build": "uglifyjs --compress --mangle --output min.js -- js/app.js js/ccv.js js/face.js js/utils.js",
     "test": "echo \"Error: no test specified\" && exit 1"
