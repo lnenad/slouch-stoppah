@@ -6,7 +6,11 @@ video {
 }
 
 canvas {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transform: rotateY(180deg);
 }
 
 code {
@@ -24,6 +28,10 @@ code {
 #videoContent {
     flex: 2;
     margin: 0 20px;
+}
+
+#videoContent div:first-child {
+    position: relative;
 }
 
 #infoContent {

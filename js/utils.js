@@ -10,14 +10,6 @@
         return sum / values.length;
     };
 
-    window.percentageToInches = (p) => {
-        return 49 * Math.exp(-0.023 * p);
-    };
-
-    window.percentageToCM = (p) => {
-        return 49 * Math.exp(-0.023 * p) * 2.54;
-    };
-
     window.sendNotification = (message) => {
         // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
