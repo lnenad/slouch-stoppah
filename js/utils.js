@@ -1,5 +1,17 @@
 
-(function () {
+navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
+    getUserMedia: function (c) {
+        return new Promise(function (y, n) {
+            (navigator.mozGetUserMedia ||
+                navigator.webkitGetUserMedia).call(navigator, c, y, n);
+        });
+    }
+} : null);
+if (!navigator.mediaDevices) {
+    throw new Error("getUserMedia() not supported.");
+}
+
+(function (window) {
     const errorContainer = document.getElementById("errorContainer");
 
     window.rollingAverage = (values, size) => {
@@ -27,7 +39,7 @@
             Notification.requestPermission(function (permission) {
                 // If the user accepts, let's create a notification
                 if (permission === "granted") {
-                    const notification = new Notification(message);
+                    new Notification(message);
                 }
             });
         }

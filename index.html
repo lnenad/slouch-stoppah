@@ -73,7 +73,7 @@
 
         </div>
         <div id="distanceDisplay" class="notification is-marginless">
-            Your current percentage is <code id="distance">x</code> percent. 
+            Your current percentage is <code id="scale">x</code> percent. Your current vertical position is <code id="distance">x</code>
             <p id="capturedDistance"></p>
         </div>
         <div class="level is-marginless">
@@ -145,11 +145,7 @@
 
 </body>
 
-<script src="js/face-api.min.js"></script>
-<script>
-    const net = new faceapi.TinyYolov2();
-    net.load('js/models/tiny_yolov2_separable_conv_model-weights_manifest.json');
-</script>
+<script src="js/face-api-new.min.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/app.js" async></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
