@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
     <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/noty.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
 </head>
 
@@ -22,7 +23,7 @@
                 <p class="is-size-7">
                     After sitting up straight and clicking on <strong>"Start video"</strong> you should
                     click on <strong>"Capture current position"</strong> to save the current calculated proportion
-                    and vertical position of your head, and use that as a baseline. Upon clicking the page will
+                    and vertical position of your head, and use that as a baseline. Upon clicking, the page will
                     try to measure your movements from the webcam every <strong>1500</strong> milliseconds by default,
                     and compare it to the captured values. By default, if the distance
                     difference is greater than or equal to <strong>4%</strong> you will be notified every 
@@ -45,7 +46,8 @@
                 <hr>
                 <p class="is-size-7">
                     In <strong>no way</strong> does the page send any client data back to any servers.
-                    This is purely a client side implementation.
+                    This is purely a client side implementation. We use google analytics just to track 
+                    website traffic. You can use a tool like uBlock Origin to block this.
                 </p>
                 <button class="toggleInfoModal button is-pulled-right" aria-label="close">Close</button>
             </div>
@@ -67,19 +69,19 @@
         </section>
         <div class="notification is-marginless">
             If you are not sure how to sit correctly, take a look at
-            <a href="https://www.wikihow.com/Sit-up-Straight-at-a-Computer">this</a> link or just google it yourself.
+            <a href="https://www.wikihow.com/Sit-up-Straight-at-a-Computer">this</a> link or just google it.
         </div>
         <div id="errorContainer" class="notification is-warning is-marginless">
 
         </div>
         <div id="distanceDisplay" class="notification is-marginless">
-            Your current percentage is <code id="scale">x</code> percent. Your current vertical position is <code id="distance">x</code>
+            Detected percentage scale is <code id="scale">x</code> percent. <br> Your current vertical position is <code id="distance">x</code> percent.
             <p id="capturedDistance"></p>
         </div>
         <div class="level is-marginless">
             <div id="videoContent" class="level-left">
                 <div>
-                    <canvas width="266" height="200"></canvas>
+                    <canvas id="debugOverlay" width="266" height="200" style="display: none"></canvas>
                     <video></video>
                 </div>
             </div>
@@ -118,12 +120,16 @@
                         </div>
                     </div>
                     <button class="ui button control" id="startCamera">Start camera</button>
-                    <button class="ui button control" id="captureDistance">Capture current position</button>
+                    <button class="ui button control" id="captureDistance" disabled>Capture current position</button>
                     <br>
                     <br>
                     <label class="checkbox">
                         <input id="showVideoInput" type="checkbox" checked>
                         Show video input
+                    </label>
+                    <label class="checkbox">
+                        <input id="showDebugOverlay" type="checkbox">
+                        Show debug overlay
                     </label>
                 </div>
             </div>
@@ -134,8 +140,9 @@
         <footer class="footer">
             <div class="content has-text-centered">
                 <p>
-                    <strong>Slouch stoppah</strong> by <a href="https://nenadspp.com">Nenad Lukic</a>.
-                    The <a href="https://github.com">source code</a> is licensed
+                    <strong>Slouch stoppah</strong> by <a href="https://github.com/lnenad">Nenad Lukic</a>.
+                    <strong>Sponsored</strong> by <a href="https://mockadillo.com">Mockadillo</a>.
+                    The <a href="https://github.com/lnenad/slouch-stoppah">source code</a> is licensed
                     <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
                 </p>
             </div>
@@ -145,7 +152,8 @@
 
 </body>
 
-<script src="js/face-api-new.min.js"></script>
+<script src="js/face-api.min.js"></script>
+<script src="js/noty.min.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/app.js" async></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->

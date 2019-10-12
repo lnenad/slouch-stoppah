@@ -1,3 +1,6 @@
+// Slouch stoppah
+// faceapi: https://github.com/justadudewhohacks/face-api.js
+// Maintainer: Nenad Lukic https://github.com/lnenad
 // Icon credit: Icons made by Freepik from https://www.flaticon.com is licensed - CC 3.0 BY
 (async function (window) {
     const net = new faceapi.SsdMobilenetv1();
@@ -19,7 +22,6 @@
         detectedHeights = [], detectedYs = [], capturedSize = 0, capturedY = 0, lastSize = 0, lastY = 0;
 
     function startCamera() {
-
         hideErrors();
 
         return navigator.mediaDevices.getUserMedia(constraints)
@@ -69,7 +71,7 @@
             
         noFace++;
         if (noFace > 5) {
-            displayError("We're unable to detect a face. Maybe increase light intensity?");
+            displayError("Tracking stopped because we are unable to detect a face. Maybe increase light intensity?");
             stopCamera();
             return;
         }
@@ -118,6 +120,7 @@
     }
 
     function stopCamera() {
+        document.getElementById('captureDistance').setAttribute("disabled", true);
         document.getElementById("distanceDisplay").style.display = "none";
         if (streamOn && streamOn.getVideoTracks().length > 0) {
             streamOn.getVideoTracks()[0].stop();
@@ -134,10 +137,19 @@
         if (streamOn !== null) {
             stopCamera();
         } else {
+            document.getElementById('captureDistance').setAttribute("disabled", true);
+            new Noty({
+                timeout: 6000,
+                type: 'success',
+                text: 'Sit up straight and click on capture current position when ready!',
+            }).show();
             startCameraButton.textContent = 'Starting camera';
             startCamera().then(function (stream) {
                 streamOn = stream;
                 startCameraButton.textContent = 'Stop camera';
+                setTimeout(() => {
+                    document.getElementById('captureDistance').removeAttribute("disabled");
+                }, 5000);
             });
         }
     }
@@ -162,5 +174,9 @@
 
     document.getElementById("showVideoInput").onchange = () => {
         document.getElementById("videoContent").style.display = document.getElementById("showVideoInput").checked ? "block" : "none";
+    }
+
+    document.getElementById("showDebugOverlay").onchange = () => {
+        document.getElementById("debugOverlay").style.display = document.getElementById("showDebugOverlay").checked ? "block" : "none";
     }
 })(window);

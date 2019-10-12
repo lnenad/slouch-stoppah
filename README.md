@@ -14,7 +14,7 @@ The only dev dependency is Bulma.
 
 You can run the website with an any static file server
 
-For node.js based one you can use `static-server`
+For a node.js based one you can use `static-server`
 
 ```$ npm i -g static-server```
 
@@ -22,7 +22,8 @@ And then just run it while in the root directory.
 
 ## Built With
 
-* [Bulma](https://bulma.io//) - CSS Framework
+* [Bulma](https://bulma.io/) - CSS Framework
+* [face-api.js](https://github.com/justadudewhohacks/face-api.js) - Client side face detection library
 
 ## Author
 
