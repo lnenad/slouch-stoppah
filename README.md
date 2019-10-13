@@ -1,6 +1,7 @@
 # Slouch Stoppah
 
-A simple way to stop slouching at your desk.
+A simple way to stop slouching at your desk. [https://slouchstoppah.com](https://slouchstoppah.com)
+
 
 ## Getting Started
 
@@ -23,6 +24,7 @@ And then just run it while in the root directory.
 ## Built With
 
 * [Bulma](https://bulma.io/) - CSS Framework
+* [howler.js](https://github.com/goldfire/howler.js) - Audio API wrapper
 * [face-api.js](https://github.com/justadudewhohacks/face-api.js) - Client side face detection library
 
 ## Author

@@ -1,7 +1,7 @@
 
 navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
-    getUserMedia: function (c) {
-        return new Promise(function (y, n) {
+    getUserMedia: c => {
+        return new Promise((y, n) => {
             (navigator.mozGetUserMedia ||
                 navigator.webkitGetUserMedia).call(navigator, c, y, n);
         });
@@ -23,27 +23,26 @@ if (!navigator.mediaDevices) {
     };
 
     window.sendNotification = (message) => {
-        // Let's check if the browser supports notifications
         if (!("Notification" in window)) {
             alert("This browser does not support desktop notification");
-        }
-
-        // Let's check whether notification permissions have already been granted
-        else if (Notification.permission === "granted") {
-            // If it's okay let's create a notification
-            const notification = new Notification(message);
-        }
-
-        // Otherwise, we need to ask the user for permission
-        else if (Notification.permission !== "denied") {
+        } else if (Notification.permission === "granted") {
+            new Notification(message);
+        } else if (Notification.permission !== "denied") {
             Notification.requestPermission(function (permission) {
-                // If the user accepts, let's create a notification
                 if (permission === "granted") {
                     new Notification(message);
                 }
             });
         }
     };
+
+    const sound = new Howl({
+        src: ['alert.wav']
+    });
+
+    window.playAlertSound = () => {
+        sound.play();
+    }
 
     window.displayError = (err) => {
         errorContainer.style.display = "flex";

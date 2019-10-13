@@ -15,13 +15,14 @@
         context = canvas.getContext('2d'),
         startCameraButton = document.querySelector('#startCamera');
 
-    let notificationFrequency = document.getElementById('notificationFrequency').value
-        breakPercentage = document.getElementById('breakPercentage').value
-        detectionFrequency = document.getElementById('detectionFrequency').value * 1000
-        faceDetectionTimeout = null
+    let notificationFrequency = document.getElementById('notificationFrequency').value,
+        breakPercentage = document.getElementById('breakPercentage').value,
+        detectionFrequency = document.getElementById('detectionFrequency').value * 1000,
+        faceDetectionTimeout = null,
+        soundAlerts = true,
         detectedHeights = [], detectedYs = [], capturedSize = 0, capturedY = 0, lastSize = 0, lastY = 0;
 
-    function startCamera() {
+    const startCamera = () => {
         hideErrors();
 
         return navigator.mediaDevices.getUserMedia(constraints)
@@ -47,7 +48,7 @@
 
     let lastNotificationTime = 0, noFace = 0;
 
-    async function performDetection(initial) {
+    const performDetection = async (initial) => {
         const { width, height } = faceapi.getMediaDimensions(video)
         canvas.width = width
         canvas.height = height
@@ -91,8 +92,7 @@
             && lastY > capturedY 
             && lastY - capturedY >= breakPercentage
             && (Date.now() - lastNotificationTime) > notificationFrequency * 1000) {
-                lastNotificationTime = Date.now();
-                sendNotification("Are you slouching there? You're sitting lower than the captured position.");
+                alertUser("Are you slouching there? You're sitting lower than the captured position.");                
             }
 
         document.getElementById('distance').textContent = lastY;
@@ -112,14 +112,21 @@
             && lastSize > capturedSize  // If you're further away from the screen you're probably not slouching
             && (lastSize - capturedSize >= breakPercentage) // Slouching threshold crossed
             && (Date.now() - lastNotificationTime) > notificationFrequency * 1000) {
-                lastNotificationTime = Date.now();
-                sendNotification("Are you slouching there? You're getting closer to the camera.");
+                alertUser("Are you slouching there? You're getting closer to the camera.");
             }
 
         document.getElementById('scale').textContent = lastSize;
     }
 
-    function stopCamera() {
+    const alertUser = (message) => {
+        lastNotificationTime = Date.now();
+        sendNotification(message);
+        if (soundAlerts) {
+            playAlertSound();
+        }
+    }
+
+    const stopCamera = () => {
         document.getElementById('captureDistance').setAttribute("disabled", true);
         document.getElementById("distanceDisplay").style.display = "none";
         if (streamOn && streamOn.getVideoTracks().length > 0) {
@@ -144,9 +151,10 @@
                 text: 'Sit up straight and click on capture current position when ready!',
             }).show();
             startCameraButton.textContent = 'Starting camera';
-            startCamera().then(function (stream) {
+            startCamera().then(stream => {
                 streamOn = stream;
                 startCameraButton.textContent = 'Stop camera';
+                sendNotification('You will get a notification whenever we think you are slouching.');
                 setTimeout(() => {
                     document.getElementById('captureDistance').removeAttribute("disabled");
                 }, 5000);
@@ -174,6 +182,14 @@
 
     document.getElementById("showVideoInput").onchange = () => {
         document.getElementById("videoContent").style.display = document.getElementById("showVideoInput").checked ? "block" : "none";
+    }
+
+    document.getElementById("playAudioAlerts").onchange = () => {
+        soundAlerts = document.getElementById("playAudioAlerts").checked;
+    }
+
+    document.getElementById("playTestSound").onclick = () => {
+        playAlertSound();
     }
 
     document.getElementById("showDebugOverlay").onchange = () => {
