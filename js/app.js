@@ -3,6 +3,7 @@
 // Maintainer: Nenad Lukic https://github.com/lnenad
 // Icon credit: Icons made by Freepik from https://www.flaticon.com is licensed - CC 3.0 BY
 (async function (window) {
+    const breakDetectionFrequency = 60000;
     const net = new faceapi.SsdMobilenetv1();
     await net.load('js/models');
 
@@ -48,7 +49,7 @@
 
     let lastNotificationTime = 0, noFace = 0;
 
-    const performDetection = async (initial) => {
+    let performDetection = async (initial) => {
         const { width, height } = faceapi.getMediaDimensions(video)
         canvas.width = width
         canvas.height = height
@@ -72,6 +73,11 @@
             
         noFace++;
         if (noFace > 5) {
+            // Slow down face detection for computer break
+            faceDetectionTimeout = setTimeout(performDetection, breakDetectionFrequency);
+            return;
+        }
+        else if (noFace > 10) {
             displayError("Tracking stopped because we are unable to detect a face. Maybe increase light intensity?");
             stopCamera();
             return;
